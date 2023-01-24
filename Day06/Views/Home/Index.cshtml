@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <h2>@ViewBag.ClientID</h2>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @*<partial name="_IndexForm" />*@
+
+    <button class="btn btn-success btn-sm" id="btn_status">Deactivate</button>
+    <div id="partialData"></div>
+</div>
+
+@section Scripts{
+    <script>
+        //console.log("index")
+        let status = true;
+        let btn = document.getElementById('btn_status')
+        if (status) {
+            btn.innerText = "Deactivate"
+            btn.classList.remove('btn-danger')
+            btn.classList.add('btn-success')
+        } else {
+            btn.innerText = "Activate"
+            btn.classList.remove('btn-success')
+            btn.classList.add('btn-danger')
+        }
+        btn.addEventListener('click', () => {
+            let pData = $('#partialData')
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("PartialData","Home")",
+                dataType: "html",
+                cache: false,
+                success: (d) => {
+                    if (d != null) {
+                        pData.html(d)
+                    }
+                },
+                error: (xhr) => {
+                    console.log("error")
+                }
+            });
+
+            fetch('/home/activate?value=' + status)
+                .then(res => res.text())
+                .then(data => {
+                    console.log(data)
+                    status = data;
+                    if (status == 'true') {
+                        btn.innerText = "Deactivate"
+                        btn.classList.remove('btn-danger')
+                        btn.classList.add('btn-success')
+                    } else {
+                        btn.innerText = "Activate"
+                        btn.classList.remove('btn-success')
+                        btn.classList.add('btn-danger')
+                    }
+                })
+                .catch(err => console.log(err))
+        });
+
+        const p1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(100);
+            }, 1000);
+        })
+
+        p1.then(result => {
+            console.log(result);
+            return result / 2;
+        })
+
+        p1.then(result => {
+            console.log(result);
+            return result * 1.5;
+        })
+
+        p1.then(result => {
+            console.log(result);
+            return result + 92;
+        })
+
+        p1.then(result => {
+            setTimeout(() => {
+                console.log(result);
+            }, 1000);
+            return result / 2;
+        }).then(result => {
+            setTimeout(() => {
+                console.log(result);
+            }, 1000);
+            return result * 1.5;
+        }).then(result => {
+            setTimeout(() => {
+                console.log(result);
+            }, 1000);;
+            return result + 92;
+        }).then(result => {
+            setTimeout(() => {
+                console.log(result);
+            }, 1000);
+            return result;
+        })
+
+        let calculate = (num) => {
+            return new Promise(resolve, reject)=> {
+            setTimeout(() => {
+                resolve(num)
+            }, 1000);
+        }};
+
+        calculate(100)
+            .then(result)=> {
+            return calculate(result * 2)
+        }.then(result)=> {
+            return calculate(result / 12)
+        }.then(result)=> {
+            return calculate(result + 72)
+        }.then(result)=> console.log(result);
+    </script>
+}
+

@@ -1,0 +1,38 @@
+﻿<input type="text" id="demo" name="demo" class="form-control" />
+<button class="btn btn-dark btn-sm" id="btn_show">Göster</button>
+
+<script>
+    document.getElementById("btn_show").addEventListener("click", () => {
+        let data = document.getElementById('demo')
+        console.log(data.value)
+    })
+                    /*
+    async function info() {
+    const p1 = await new Promise(
+    (resolve, reject) => {
+        resolve("Activated");
+    });
+    if (p1) {
+    const p2 = await new Promise(((resolve, reject) => {
+        resolve("Dedicated");
+    });
+    }
+    if (p2) {
+    const p3 = await new Promise(((resolve, reject) => {
+        resolve("Delivered");
+    });
+    }
+    }
+    let status = false
+    fetch("url")
+    .then(res => res.json())
+    .then(json => fetch("url2")
+    .then(res2 => res2)
+    .then(json2 => {
+        //Burada oluşan data burada kalır, sayfa hızlı yüklendiği.
+        status=true;
+    })
+    .catch(err2 => log(err2)))
+    .catch(err => console.log(err));
+    */
+</script>
